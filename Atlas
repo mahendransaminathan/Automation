@@ -1,0 +1,186 @@
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+
+namespace PracticeAutomation
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            ChromeOptions options = new ChromeOptions();
+            options.AddArgument("--incognito");
+            // Set up ChromeDriver
+            using (IWebDriver driver = new ChromeDriver())
+            {
+                // Navigate to a website
+                driver.Navigate().GoToUrl("https://atlas.version1.com/dashboard");
+
+                // Maximize the browser window
+                driver.Manage().Window.Maximize();
+
+                
+                // Initialize WebDriverWait
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement email = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@type='email']")));
+
+                // Click the consent button
+                email.SendKeys("mahendran.saminathen@version1.com");
+
+                IWebElement next = driver.FindElement(By.XPath("//input[@type='submit']"));
+                next.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait1 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement consentButton = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@type='password']")));
+
+                // Click the consent button
+                consentButton.SendKeys("vkallippalayamsaminathan321");
+
+                IWebElement signIn = driver.FindElement(By.XPath("//input[@value='Sign in']"));
+                signIn.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait2 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement yes = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@value='Yes']")));
+                yes.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait3 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement MP = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[normalize-space()='Monthly Processing']")));
+                MP.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait4 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement SubsidiarySelector = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[@id='subsidiary-selector']")));
+                SubsidiarySelector.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait5 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the cookie consent button using XPath
+                IWebElement periodPicker = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[@id='periodPicker']")));
+                periodPicker.Click();
+
+                IWebElement left = driver.FindElement(By.XPath("//i[@class='glyphicon glyphicon-chevron-left']"));
+                left.Click();
+
+                IWebElement timeoff = driver.FindElement(By.XPath("//a[normalize-space()='Time-Off']"));
+                timeoff.Click();
+
+
+                // Wait for the table to be present
+                IWebElement table = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.Id("time-off")));
+
+                // Locate all rows in the table
+                var rows = table.FindElements(By.XPath(".//tr")); // Relative XPath to get rows from the table
+
+                // Specify the column index you want to extract (0-based index)
+                int columnIndex = 4; // Change this to the index of the desired column
+
+                // List to hold the data from the specified column
+                List<string> columnData = new List<string>();
+
+                // Loop through rows to get the desired column data
+                foreach (var row in rows)
+                {
+                    // Get all cells in the current row
+                    var cells = row.FindElements(By.XPath(".//td"));
+
+                    // Check if the row has enough cells
+                    if (cells.Count > columnIndex)
+                    {
+                        // Add the text from the specified column to the list
+                        columnData.Add(cells[columnIndex].Text);
+                    }
+                }
+
+                // Print the extracted data
+                foreach (var data in columnData)
+                {
+                    Console.Write(data);
+                }
+                Thread.Sleep(5000);
+
+                IWebElement timesheet = driver.FindElement(By.XPath("(//a[normalize-space()='Timesheets'])[1]"));
+                timesheet.Click();
+
+                // Initialize WebDriverWait
+                /*WebDriverWait wait6 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the element to be present
+                IWebElement elementToDrag = wait6.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//div[@id='day-container-0']")));
+
+                // Create an Actions instance
+                Actions actions = new Actions(driver);
+
+                // Perform mouse down, drag right, and mouse up
+                actions
+                    .ClickAndHold(elementToDrag)  // Mouse down on the element
+                    .MoveByOffset(1000, 0)          // Drag right by 100 pixels (adjust as needed)
+                    .Release()                     // Mouse up
+                    .Perform();                    // Execute the action
+                
+
+                Thread.Sleep(10000);*/
+
+
+                IWebElement forecast = driver.FindElement(By.XPath("//a[normalize-space()='Forecast']"));
+                forecast.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait7 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the element to be present
+                IWebElement forecastsheet = wait7.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[normalize-space(text())='Forecast Sheet']")));
+                forecastsheet.Click();
+
+                
+
+                IWebElement finance = driver.FindElement(By.XPath("//a[normalize-space()='Finance']"));
+                finance.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait8 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the element to be present
+                IWebElement revenueIndex = wait8.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[normalize-space()='Recurring Revenue Index']")));
+                revenueIndex.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait9 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the element to be present
+                IWebElement subselector = wait9.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[@id='subsidiary-selector']")));
+                subselector.Click();
+
+                // Initialize WebDriverWait
+                WebDriverWait wait10 = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+                // Wait for the element to be present
+                IWebElement subselectorany = wait9.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[normalize-space()='Version 1 US Inc.']")));
+                subselectorany.Click();
+
+
+                Thread.Sleep(10000);
+            }
+        }
+    }
+}
